@@ -1,0 +1,2700 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دفتر القسم الرقمي - التعليم الثانوي الجزائري</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Noto Sans Arabic', sans-serif;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            z-index: 50;
+            padding: 8px 0;
+        }
+        
+        .nav-active {
+            color: #059669;
+            background-color: #ecfdf5;
+        }
+        
+        .nav-inactive {
+            color: #6b7280;
+        }
+        
+        .main-content {
+            padding-bottom: 80px;
+        }
+        
+        .desktop-nav {
+            display: none;
+        }
+        
+        @media (min-width: 768px) {
+            .bottom-nav {
+                display: none;
+            }
+            .desktop-nav {
+                display: flex;
+            }
+            .main-content {
+                padding-bottom: 20px;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+            box-shadow: 0 6px 12px -2px rgba(5, 150, 105, 0.4);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #f8fafc;
+            color: #475569;
+            padding: 12px 24px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #059669, #10b981, #34d399);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #059669;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .table-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 16px 24px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .action-button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-button.view {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .action-button.view:hover {
+            background: #bfdbfe;
+        }
+        
+        .action-button.edit {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .action-button.edit:hover {
+            background: #bbf7d0;
+        }
+        
+        .action-button.delete {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        
+        .action-button.delete:hover {
+            background: #fca5a5;
+        }
+        
+        .grade-excellent { background: #dcfce7; color: #166534; }
+        .grade-very-good { background: #dbeafe; color: #1e40af; }
+        .grade-good { background: #fef3c7; color: #92400e; }
+        .grade-average { background: #fed7aa; color: #9a3412; }
+        .grade-poor { background: #fecaca; color: #991b1b; }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #059669;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 200;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateX(-50%) translateY(-100%); }
+            to { transform: translateX(-50%) translateY(0); }
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-full">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4">
+            <!-- Mobile Header -->
+            <div class="flex items-center justify-between md:hidden">
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-bold">د.ق</span>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-gray-900">دفتر القسم الرقمي</h1>
+                        <p class="text-xs text-gray-500">التعليم الثانوي الجزائري</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <span class="text-sm text-gray-600 px-2" id="currentUserInfo">مرحباً</span>
+                    <button onclick="exportData()" class="p-2 text-gray-600 hover:text-gray-900">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </button>
+                    <button onclick="showSettings()" class="p-2 text-gray-600 hover:text-gray-900">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </button>
+                    <button onclick="logout()" class="p-2 text-red-600 hover:text-red-900" title="تسجيل الخروج">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Desktop Header -->
+            <div class="hidden md:flex items-center justify-between">
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold">د.ق</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">دفتر القسم الرقمي</h1>
+                        <p class="text-sm text-gray-600">التعليم الثانوي الجزائري - <span id="currentYear">2023-2024</span></p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="desktop-nav items-center space-x-6 space-x-reverse">
+                    <button onclick="showSection('dashboard')" class="nav-btn px-4 py-2 rounded-lg nav-active font-medium">لوحة التحكم</button>
+                    <button onclick="showSection('students')" class="nav-btn px-4 py-2 rounded-lg nav-inactive font-medium">التلاميذ</button>
+                    <button onclick="showSection('attendance')" class="nav-btn px-4 py-2 rounded-lg nav-inactive font-medium">الحضور</button>
+                    <button onclick="showSection('grades')" class="nav-btn px-4 py-2 rounded-lg nav-inactive font-medium">النقاط</button>
+                    <button onclick="showSection('lessons')" class="nav-btn px-4 py-2 rounded-lg nav-inactive font-medium">دفتر النصوص</button>
+                    <button onclick="showSection('reports')" class="nav-btn px-4 py-2 rounded-lg nav-inactive font-medium">التقارير</button>
+                    <button onclick="showSection('settings')" class="nav-btn px-4 py-2 rounded-lg nav-inactive font-medium">الإعدادات</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="min-h-full flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <div class="text-center">
+                <div class="mx-auto h-20 w-20 bg-green-600 rounded-full flex items-center justify-center mb-6">
+                    <span class="text-white text-2xl font-bold">د.ق</span>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-2">دفتر القسم الرقمي</h2>
+                <p class="text-gray-600 mb-8">التعليم الثانوي الجزائري</p>
+            </div>
+            
+            <div class="card p-8">
+                <form onsubmit="handleLogin(event)" class="space-y-6">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700 mb-2">اسم المستخدم</label>
+                        <input id="username" name="username" type="text" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               placeholder="أدخل اسم المستخدم">
+                    </div>
+                    
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">كلمة المرور</label>
+                        <div class="relative">
+                            <input id="password" name="password" type="password" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                   placeholder="أدخل كلمة المرور">
+                            <button type="button" onclick="togglePassword()" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="userType" class="block text-sm font-medium text-gray-700 mb-2">نوع المستخدم</label>
+                        <select id="userType" name="userType" required 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            <option value="">اختر نوع المستخدم</option>
+                            <option value="teacher">أستاذ</option>
+                            <option value="admin">إدارة</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember" name="remember" type="checkbox" 
+                                   class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                            <label for="remember" class="mr-2 block text-sm text-gray-700">تذكرني</label>
+                        </div>
+                        <button type="button" onclick="showForgotPassword()" class="text-sm text-green-600 hover:text-green-500">
+                            نسيت كلمة المرور؟
+                        </button>
+                    </div>
+                    
+                    <button type="submit" class="w-full btn-primary py-3 text-lg font-medium">
+                        تسجيل الدخول
+                    </button>
+                </form>
+                
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <div class="text-center">
+                        <p class="text-sm text-gray-600 mb-4">حسابات تجريبية للاختبار:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button onclick="quickLogin('teacher')" class="btn-secondary text-sm py-2">
+                                دخول كأستاذ
+                                <br><span class="text-xs text-gray-500">أستاذ / 123456</span>
+                            </button>
+                            <button onclick="quickLogin('admin')" class="btn-secondary text-sm py-2">
+                                دخول كإدارة
+                                <br><span class="text-xs text-gray-500">إدارة / admin123</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <p class="text-sm text-gray-500">
+                    © 2024 دفتر القسم الرقمي - وزارة التربية الوطنية الجزائرية
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainApp" class="main-content container mx-auto px-4 py-6" style="display: none;">
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section active">
+            <div class="section-header">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">لوحة التحكم</h2>
+                <p class="text-gray-600 text-lg">نظرة عامة على أداء القسم - <span id="dashboardDate"></span></p>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                <div class="stats-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-1">إجمالي التلاميذ</p>
+                            <p class="text-3xl font-bold text-gray-900" id="totalStudents">0</p>
+                        </div>
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+                            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A3.01 3.01 0 0 0 17.1 7H14.9c-1.3 0-2.4.84-2.85 2.37L9.5 16H12v6h8z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-1">الحاضرون اليوم</p>
+                            <p class="text-3xl font-bold text-green-600" id="presentToday">0</p>
+                        </div>
+                        <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
+                            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-1">الغائبون اليوم</p>
+                            <p class="text-3xl font-bold text-red-600" id="absentToday">0</p>
+                        </div>
+                        <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center shadow-lg">
+                            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-1">معدل القسم</p>
+                            <p class="text-3xl font-bold text-purple-600" id="classAverage">0.00</p>
+                        </div>
+                        <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+                            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">الإجراءات السريعة</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button onclick="showSection('students')" class="btn-primary p-4 text-center rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A3.01 3.01 0 0 0 17.1 7H14.9c-1.3 0-2.4.84-2.85 2.37L9.5 16H12v6h8z"/>
+                        </svg>
+                        <p class="text-sm font-medium">إدارة التلاميذ</p>
+                    </button>
+                    
+                    <button onclick="showSection('attendance')" class="btn-primary p-4 text-center rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-3V2h-2v2H8V2H6v2H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/>
+                        </svg>
+                        <p class="text-sm font-medium">تسجيل الحضور</p>
+                    </button>
+                    
+                    <button onclick="showSection('grades')" class="btn-primary p-4 text-center rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                        </svg>
+                        <p class="text-sm font-medium">إدخال النقاط</p>
+                    </button>
+                    
+                    <button onclick="showSection('lessons')" class="btn-primary p-4 text-center rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                        </svg>
+                        <p class="text-sm font-medium">دفتر النصوص</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">النشاط الأخير</h3>
+                <div id="recentActivity" class="space-y-3">
+                    <div class="text-center py-8 text-gray-500">
+                        <p>لا توجد أنشطة حديثة</p>
+                        <p class="text-sm">ابدأ بإضافة التلاميذ وتسجيل البيانات</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Section -->
+        <div id="students" class="section">
+            <div class="section-header">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">إدارة التلاميذ</h2>
+                        <p class="text-gray-600 text-lg">قائمة تلاميذ القسم - <span id="studentsClass">السنة الأولى ثانوي</span></p>
+                    </div>
+                    <button onclick="showAddStudentModal()" class="btn-primary">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        إضافة تلميذ
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4 space-x-reverse">
+                            <input type="text" id="studentSearch" placeholder="البحث عن تلميذ..." class="input-field w-64">
+                            <select id="classFilter" class="input-field w-48">
+                                <option value="">جميع الأقسام</option>
+                                <option value="1AS">السنة الأولى ثانوي</option>
+                                <option value="2AS">السنة الثانية ثانوي</option>
+                                <option value="3AS">السنة الثالثة ثانوي</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <button onclick="exportStudents()" class="btn-secondary">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                </svg>
+                                تصدير
+                            </button>
+                            <button onclick="importStudents()" class="btn-secondary">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+                                </svg>
+                                استيراد
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الرقم</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم واللقب</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">تاريخ الميلاد</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">القسم</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الشعبة</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">المعدل العام</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الغيابات</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="studentsTable">
+                            <tr id="noStudentsRow">
+                                <td colspan="8" class="px-6 py-8 text-center text-gray-500">
+                                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A3.01 3.01 0 0 0 17.1 7H14.9c-1.3 0-2.4.84-2.85 2.37L9.5 16H12v6h8z"/>
+                                    </svg>
+                                    <p class="text-lg font-medium mb-2">لا توجد تلاميذ مسجلون</p>
+                                    <p class="text-sm">ابدأ بإضافة الأقسام ثم التلاميذ لإدارة القسم</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Section -->
+        <div id="attendance" class="section">
+            <div class="section-header">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">تسجيل الحضور والغياب</h2>
+                <p class="text-gray-600 text-lg">تسجيل حضور وغياب التلاميذ حسب التاريخ والحصة</p>
+            </div>
+
+            <div class="card p-8 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">التاريخ</label>
+                        <input type="date" id="attendanceDate" class="input-field">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">الحصة</label>
+                        <select id="attendanceSession" class="input-field">
+                            <option value="1">الحصة الأولى (08:00-09:00)</option>
+                            <option value="2">الحصة الثانية (09:00-10:00)</option>
+                            <option value="3">الحصة الثالثة (10:15-11:15)</option>
+                            <option value="4">الحصة الرابعة (11:15-12:15)</option>
+                            <option value="5">الحصة الخامسة (13:00-14:00)</option>
+                            <option value="6">الحصة السادسة (14:00-15:00)</option>
+                            <option value="7">الحصة السابعة (15:15-16:15)</option>
+                            <option value="8">الحصة الثامنة (16:15-17:15)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">المادة</label>
+                        <select id="attendanceSubject" class="input-field">
+                            <option value="رياضيات">رياضيات</option>
+                            <option value="فيزياء">فيزياء</option>
+                            <option value="كيمياء">كيمياء</option>
+                            <option value="علوم طبيعية">علوم طبيعية</option>
+                            <option value="تاريخ وجغرافيا">تاريخ وجغرافيا</option>
+                            <option value="لغة عربية">لغة عربية</option>
+                            <option value="لغة فرنسية">لغة فرنسية</option>
+                            <option value="لغة إنجليزية">لغة إنجليزية</option>
+                            <option value="فلسفة">فلسفة</option>
+                            <option value="تربية إسلامية">تربية إسلامية</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="loadAttendanceSession()" class="btn-primary w-full">تحميل الجلسة</button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <button onclick="markAllPresent()" class="btn-secondary">تحديد الكل حاضر</button>
+                        <button onclick="markAllAbsent()" class="btn-secondary">تحديد الكل غائب</button>
+                    </div>
+                    <button onclick="saveAttendance()" class="btn-primary">حفظ الحضور</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="attendanceGrid">
+                    <div class="text-center py-12 col-span-full">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-3V2h-2v2H8V2H6v2H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/>
+                        </svg>
+                        <p class="text-lg font-medium text-gray-500 mb-2">اختر التاريخ والحصة لتسجيل الحضور</p>
+                        <p class="text-sm text-gray-400">أضف التلاميذ أولاً من قسم إدارة التلاميذ</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance History -->
+            <div class="card p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">سجل الحضور</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">التاريخ</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الحصة</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">المادة</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الحاضرون</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الغائبون</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="attendanceHistoryTable">
+                            <tr>
+                                <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+                                    <p>لا توجد جلسات حضور مسجلة</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grades Section -->
+        <div id="grades" class="section">
+            <div class="section-header">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">إدارة النقاط والتقييم</h2>
+                <p class="text-gray-600 text-lg">إدخال وإدارة نقاط التلاميذ حسب النظام الجزائري</p>
+            </div>
+
+            <!-- Grade Input Form -->
+            <div class="card p-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">الفصل</label>
+                        <select id="gradeTrimester" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <option value="1">الفصل الأول</option>
+                            <option value="2">الفصل الثاني</option>
+                            <option value="3">الفصل الثالث</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">نوع التقييم</label>
+                        <select id="gradeType" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <option value="فرض">فرض محروس</option>
+                            <option value="اختبار">اختبار فصلي</option>
+                            <option value="واجب">واجب منزلي</option>
+                            <option value="مشاركة">مشاركة شفهية</option>
+                            <option value="مشروع">مشروع</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">المادة</label>
+                        <select id="gradeSubject" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <option value="رياضيات">رياضيات</option>
+                            <option value="فيزياء">فيزياء</option>
+                            <option value="كيمياء">كيمياء</option>
+                            <option value="علوم طبيعية">علوم طبيعية</option>
+                            <option value="تاريخ وجغرافيا">تاريخ وجغرافيا</option>
+                            <option value="لغة عربية">لغة عربية</option>
+                            <option value="لغة فرنسية">لغة فرنسية</option>
+                            <option value="لغة إنجليزية">لغة إنجليزية</option>
+                            <option value="فلسفة">فلسفة</option>
+                            <option value="تربية إسلامية">تربية إسلامية</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">المعامل</label>
+                        <select id="gradeCoefficient" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="loadGradeSession()" class="btn-primary w-full">تحميل جلسة التقييم</button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <input type="date" id="gradeDate" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                        <input type="text" id="gradeTitle" placeholder="عنوان التقييم..." class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <button onclick="saveGrades()" class="btn-primary">حفظ النقاط</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الرقم</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم واللقب</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">النقطة (/20)</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">التقدير</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">ملاحظة</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="gradesTable">
+                            <tr>
+                                <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+                                    <p>اختر معايير التقييم لتحميل قائمة التلاميذ</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Grade Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">إحصائيات النقاط</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                            <span class="text-sm font-medium text-green-800">ممتاز (18-20)</span>
+                            <span class="text-lg font-bold text-green-600" id="excellentCount">0</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                            <span class="text-sm font-medium text-blue-800">جيد جداً (16-18)</span>
+                            <span class="text-lg font-bold text-blue-600" id="veryGoodCount">0</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
+                            <span class="text-sm font-medium text-yellow-800">جيد (14-16)</span>
+                            <span class="text-lg font-bold text-yellow-600" id="goodCount">0</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
+                            <span class="text-sm font-medium text-orange-800">مقبول (10-14)</span>
+                            <span class="text-lg font-bold text-orange-600" id="averageCount">0</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                            <span class="text-sm font-medium text-red-800">ضعيف (أقل من 10)</span>
+                            <span class="text-lg font-bold text-red-600" id="poorCount">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">المعدلات الفصلية</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="text-sm font-medium text-gray-700">معدل الفصل الأول</span>
+                            <span class="text-lg font-bold text-gray-900" id="trimester1Average">-</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="text-sm font-medium text-gray-700">معدل الفصل الثاني</span>
+                            <span class="text-lg font-bold text-gray-900" id="trimester2Average">-</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="text-sm font-medium text-gray-700">معدل الفصل الثالث</span>
+                            <span class="text-lg font-bold text-gray-900" id="trimester3Average">-</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg border-2 border-green-200">
+                            <span class="text-sm font-medium text-green-800">المعدل السنوي</span>
+                            <span class="text-xl font-bold text-green-600" id="yearlyAverage">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lessons Section -->
+        <div id="lessons" class="section">
+            <div class="section-header">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">دفتر النصوص</h2>
+                <p class="text-gray-600 text-lg">تسجيل الدروس المنجزة والواجبات المنزلية</p>
+            </div>
+
+            <div class="card p-6 mb-6">
+                <form onsubmit="addLesson(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">التاريخ</label>
+                            <input type="date" id="lessonDate" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الحصة</label>
+                            <select id="lessonSession" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                                <option value="1">الحصة الأولى (08:00-09:00)</option>
+                                <option value="2">الحصة الثانية (09:00-10:00)</option>
+                                <option value="3">الحصة الثالثة (10:15-11:15)</option>
+                                <option value="4">الحصة الرابعة (11:15-12:15)</option>
+                                <option value="5">الحصة الخامسة (13:00-14:00)</option>
+                                <option value="6">الحصة السادسة (14:00-15:00)</option>
+                                <option value="7">الحصة السابعة (15:15-16:15)</option>
+                                <option value="8">الحصة الثامنة (16:15-17:15)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">القسم</label>
+                            <select id="lessonClass" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                                <option value="1AS">السنة الأولى ثانوي</option>
+                                <option value="2AS">السنة الثانية ثانوي</option>
+                                <option value="3AS">السنة الثالثة ثانوي</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">المادة</label>
+                            <select id="lessonSubject" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                                <option value="رياضيات">رياضيات</option>
+                                <option value="فيزياء">فيزياء</option>
+                                <option value="كيمياء">كيمياء</option>
+                                <option value="علوم طبيعية">علوم طبيعية</option>
+                                <option value="تاريخ وجغرافيا">تاريخ وجغرافيا</option>
+                                <option value="لغة عربية">لغة عربية</option>
+                                <option value="لغة فرنسية">لغة فرنسية</option>
+                                <option value="لغة إنجليزية">لغة إنجليزية</option>
+                                <option value="فلسفة">فلسفة</option>
+                                <option value="تربية إسلامية">تربية إسلامية</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">نوع الحصة</label>
+                            <select id="lessonType" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                                <option value="درس جديد">درس جديد</option>
+                                <option value="تطبيقات">تطبيقات</option>
+                                <option value="مراجعة">مراجعة</option>
+                                <option value="تقييم">تقييم</option>
+                                <option value="أنشطة">أنشطة</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">عنوان الدرس</label>
+                        <input type="text" id="lessonTitle" placeholder="مثال: المعادلات من الدرجة الأولى" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">محتوى الدرس</label>
+                        <textarea id="lessonContent" rows="4" placeholder="وصف مفصل للدرس المنجز والأنشطة المنفذة..." required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">الواجب المنزلي</label>
+                        <textarea id="lessonHomework" rows="2" placeholder="الواجبات والتمارين المطلوبة من التلاميذ..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"></textarea>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ملاحظات إضافية</label>
+                        <textarea id="lessonNotes" rows="2" placeholder="ملاحظات حول سير الدرس، صعوبات، اقتراحات..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">حفظ الدرس</button>
+                </form>
+            </div>
+
+            <!-- Lessons History -->
+            <div class="card p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">سجل الدروس</h3>
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <select id="lessonsFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <option value="">جميع المواد</option>
+                            <option value="رياضيات">رياضيات</option>
+                            <option value="فيزياء">فيزياء</option>
+                            <option value="كيمياء">كيمياء</option>
+                            <option value="علوم طبيعية">علوم طبيعية</option>
+                        </select>
+                        <button onclick="exportLessons()" class="btn-secondary">تصدير السجل</button>
+                    </div>
+                </div>
+                
+                <div class="space-y-4" id="lessonsList">
+                    <div class="text-center py-8">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                        </svg>
+                        <p class="text-lg font-medium text-gray-500 mb-2">لا توجد دروس مسجلة</p>
+                        <p class="text-sm text-gray-400">ابدأ بتسجيل الدروس المنجزة والواجبات</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings" class="section">
+            <div class="section-header">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">الإعدادات</h2>
+                <p class="text-gray-600 text-lg">إدارة إعدادات التطبيق والنسخ الاحتياطية</p>
+            </div>
+
+            <!-- User Account Section -->
+            <div class="card p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">معلومات الحساب</h3>
+                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800" id="settingsUserName">المستخدم الحالي</p>
+                            <p class="text-sm text-gray-600" id="settingsUserType">نوع المستخدم</p>
+                            <p class="text-xs text-gray-500" id="settingsLoginTime">وقت تسجيل الدخول</p>
+                        </div>
+                    </div>
+                    <button onclick="confirmLogout()" class="btn-secondary text-red-600 border-red-300 hover:bg-red-50">
+                        <svg class="w-4 h-4 inline ml-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                        </svg>
+                        تسجيل الخروج
+                    </button>
+                </div>
+            </div>
+
+            <!-- Class Management Section -->
+            <div class="card p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">إدارة الأقسام</h3>
+                    <button onclick="showAddClassModal()" class="btn-primary">
+                        <svg class="w-4 h-4 inline ml-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        إضافة قسم
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="classesList">
+                    <!-- Classes will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Backup and Export Section -->
+            <div class="card p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">النسخ الاحتياطية والتصدير</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Export Options -->
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-3">تصدير البيانات</h4>
+                        <div class="space-y-3">
+                            <button onclick="exportAllData()" class="w-full btn-primary text-left">
+                                <svg class="w-4 h-4 inline ml-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                </svg>
+                                تصدير جميع البيانات (JSON)
+                            </button>
+                            <button onclick="exportStudentsData()" class="w-full btn-secondary text-left">
+                                <svg class="w-4 h-4 inline ml-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A3.01 3.01 0 0 0 17.1 7H14.9c-1.3 0-2.4.84-2.85 2.37L9.5 16H12v6h8z"/>
+                                </svg>
+                                تصدير قائمة التلاميذ (CSV)
+                            </button>
+                            <button onclick="exportAttendanceData()" class="w-full btn-secondary text-left">
+                                <svg class="w-4 h-4 inline ml-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-3V2h-2v2H8V2H6v2H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/>
+                                </svg>
+                                تصدير سجل الحضور (CSV)
+                            </button>
+                            <button onclick="exportGradesData()" class="w-full btn-secondary text-left">
+                                <svg class="w-4 h-4 inline ml-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                                </svg>
+                                تصدير كشف النقاط (CSV)
+                            </button>
+                            <button onclick="exportLessonsData()" class="w-full btn-secondary text-left">
+                                <svg class="w-4 h-4 inline ml-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                                </svg>
+                                تصدير دفتر النصوص (CSV)
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Import Options -->
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-3">استيراد البيانات</h4>
+                        <div class="space-y-3">
+                            <button onclick="importAllData()" class="w-full btn-primary text-left">
+                                <svg class="w-4 h-4 inline ml-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+                                </svg>
+                                استيراد نسخة احتياطية كاملة
+                            </button>
+                            <button onclick="importStudentsData()" class="w-full btn-secondary text-left">
+                                <svg class="w-4 h-4 inline ml-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+                                </svg>
+                                استيراد قائمة التلاميذ
+                            </button>
+                            <div class="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                <p class="text-sm text-yellow-800">
+                                    <svg class="w-4 h-4 inline ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                                    </svg>
+                                    تأكد من صحة تنسيق الملفات قبل الاستيراد
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Settings -->
+            <div class="card p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">إعدادات النظام</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                        <div>
+                            <p class="font-medium text-gray-700">السنة الدراسية</p>
+                            <p class="text-sm text-gray-500">السنة الدراسية الحالية</p>
+                        </div>
+                        <input type="text" id="currentYearSetting" value="2023-2024" 
+                               class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                               onchange="updateCurrentYear(this.value)">
+                    </div>
+                    
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                        <div>
+                            <p class="font-medium text-gray-700">اسم المؤسسة</p>
+                            <p class="text-sm text-gray-500">اسم الثانوية أو المؤسسة التعليمية</p>
+                        </div>
+                        <input type="text" id="schoolNameSetting" value="ثانوية الشهيد محمد بوضياف" 
+                               class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                               onchange="updateSchoolName(this.value)">
+                    </div>
+                    
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                        <div>
+                            <p class="font-medium text-gray-700">حفظ تلقائي</p>
+                            <p class="text-sm text-gray-500">حفظ البيانات تلقائياً عند التعديل</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="autoSaveSetting" checked class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Statistics -->
+            <div class="card p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">إحصائيات البيانات</h3>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center p-4 bg-blue-50 rounded-lg">
+                        <p class="text-2xl font-bold text-blue-600" id="totalStudentsCount">0</p>
+                        <p class="text-sm text-blue-800">إجمالي التلاميذ</p>
+                    </div>
+                    <div class="text-center p-4 bg-green-50 rounded-lg">
+                        <p class="text-2xl font-bold text-green-600" id="totalClassesCount">0</p>
+                        <p class="text-sm text-green-800">عدد الأقسام</p>
+                    </div>
+                    <div class="text-center p-4 bg-purple-50 rounded-lg">
+                        <p class="text-2xl font-bold text-purple-600" id="totalLessonsCount">0</p>
+                        <p class="text-sm text-purple-800">الدروس المسجلة</p>
+                    </div>
+                    <div class="text-center p-4 bg-orange-50 rounded-lg">
+                        <p class="text-2xl font-bold text-orange-600" id="totalGradesCount">0</p>
+                        <p class="text-sm text-orange-800">النقاط المسجلة</p>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <h4 class="font-medium text-red-800 mb-2">منطقة الخطر</h4>
+                    <p class="text-sm text-red-700 mb-3">حذف جميع البيانات نهائياً - لا يمكن التراجع عن هذا الإجراء</p>
+                    <button onclick="confirmDeleteAllData()" class="btn-secondary text-red-600 border-red-300 hover:bg-red-50">
+                        <svg class="w-4 h-4 inline ml-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                        </svg>
+                        حذف جميع البيانات
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Section -->
+        <div id="reports" class="section">
+            <div class="section-header">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">التقارير والإحصائيات</h2>
+                <p class="text-gray-600 text-lg">تقارير شاملة حول أداء التلاميذ والحضور والتقدم الأكاديمي</p>
+            </div>
+
+            <!-- Report Generation -->
+            <div class="card p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">إنشاء التقارير</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <button onclick="generateReport('attendance')" class="p-4 border-2 border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-center">
+                        <svg class="w-8 h-8 text-blue-600 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-3V2h-2v2H8V2H6v2H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/>
+                        </svg>
+                        <p class="font-medium text-gray-800">تقرير الحضور</p>
+                        <p class="text-sm text-gray-600">إحصائيات الغياب والحضور</p>
+                    </button>
+                    
+                    <button onclick="generateReport('grades')" class="p-4 border-2 border-green-200 rounded-lg hover:bg-green-50 transition-colors text-center">
+                        <svg class="w-8 h-8 text-green-600 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                        </svg>
+                        <p class="font-medium text-gray-800">كشف النقاط</p>
+                        <p class="text-sm text-gray-600">نقاط ومعدلات التلاميذ</p>
+                    </button>
+                    
+                    <button onclick="generateReport('progress')" class="p-4 border-2 border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-center">
+                        <svg class="w-8 h-8 text-purple-600 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
+                        <p class="font-medium text-gray-800">تقرير التقدم</p>
+                        <p class="text-sm text-gray-600">تطور الأداء الأكاديمي</p>
+                    </button>
+                    
+                    <button onclick="generateReport('complete')" class="p-4 border-2 border-orange-200 rounded-lg hover:bg-orange-50 transition-colors text-center">
+                        <svg class="w-8 h-8 text-orange-600 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                        </svg>
+                        <p class="font-medium text-gray-800">تقرير شامل</p>
+                        <p class="text-sm text-gray-600">جميع البيانات والإحصائيات</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics Overview -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">إحصائيات الحضور</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">نسبة الحضور العامة</span>
+                            <span class="text-lg font-bold text-green-600" id="overallAttendanceRate">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 0%" id="attendanceProgressBar"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            <div class="text-center p-3 bg-green-50 rounded-lg">
+                                <p class="text-2xl font-bold text-green-600" id="totalPresentDays">0</p>
+                                <p class="text-sm text-green-800">أيام الحضور</p>
+                            </div>
+                            <div class="text-center p-3 bg-red-50 rounded-lg">
+                                <p class="text-2xl font-bold text-red-600" id="totalAbsentDays">0</p>
+                                <p class="text-sm text-red-800">أيام الغياب</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">إحصائيات الأداء</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">معدل النجاح</span>
+                            <span class="text-lg font-bold text-blue-600" id="successRate">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 0%" id="successProgressBar"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            <div class="text-center p-3 bg-blue-50 rounded-lg">
+                                <p class="text-2xl font-bold text-blue-600" id="passedStudents">0</p>
+                                <p class="text-sm text-blue-800">ناجحون</p>
+                            </div>
+                            <div class="text-center p-3 bg-orange-50 rounded-lg">
+                                <p class="text-2xl font-bold text-orange-600" id="failedStudents">0</p>
+                                <p class="text-sm text-orange-800">راسبون</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Student Modal -->
+    <div id="addStudentModal" class="modal">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-lg mx-4 shadow-2xl">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">إضافة تلميذ جديد</h3>
+                <p class="text-gray-600 mt-2">أدخل بيانات التلميذ الجديد</p>
+            </div>
+            <form onsubmit="addStudent(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">الاسم الكامل</label>
+                    <input type="text" name="name" required class="input-field" placeholder="أدخل الاسم الكامل">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">تاريخ الميلاد</label>
+                    <input type="date" name="birthDate" required class="input-field">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">رقم التسجيل</label>
+                    <input type="text" name="registrationNumber" required class="input-field" placeholder="رقم التسجيل">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">القسم</label>
+                    <select name="classId" id="studentClassSelect" required class="input-field">
+                        <option value="">اختر القسم</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">الشعبة</label>
+                    <select name="branch" required class="input-field">
+                        <option value="علوم تجريبية">علوم تجريبية</option>
+                        <option value="رياضيات">رياضيات</option>
+                        <option value="تقني رياضي">تقني رياضي</option>
+                        <option value="آداب وفلسفة">آداب وفلسفة</option>
+                        <option value="لغات أجنبية">لغات أجنبية</option>
+                        <option value="تسيير واقتصاد">تسيير واقتصاد</option>
+                    </select>
+                </div>
+                <div class="flex space-x-4 space-x-reverse pt-4">
+                    <button type="submit" class="flex-1 btn-primary">إضافة التلميذ</button>
+                    <button type="button" onclick="hideAddStudentModal()" class="flex-1 btn-secondary">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Class Modal -->
+    <div id="addClassModal" class="modal">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-lg mx-4 shadow-2xl">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">إضافة قسم جديد</h3>
+                <p class="text-gray-600 mt-2">أدخل بيانات القسم الجديد</p>
+            </div>
+            <form onsubmit="addClass(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">اسم القسم</label>
+                    <input type="text" name="className" placeholder="مثال: 1AS1" required class="input-field">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">المستوى</label>
+                    <select name="level" required class="input-field">
+                        <option value="1AS">السنة الأولى ثانوي</option>
+                        <option value="2AS">السنة الثانية ثانوي</option>
+                        <option value="3AS">السنة الثالثة ثانوي</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">الشعبة الرئيسية</label>
+                    <select name="mainBranch" required class="input-field">
+                        <option value="علوم تجريبية">علوم تجريبية</option>
+                        <option value="رياضيات">رياضيات</option>
+                        <option value="تقني رياضي">تقني رياضي</option>
+                        <option value="آداب وفلسفة">آداب وفلسفة</option>
+                        <option value="لغات أجنبية">لغات أجنبية</option>
+                        <option value="تسيير واقتصاد">تسيير واقتصاد</option>
+                        <option value="مختلط">مختلط</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">الأستاذ الرئيسي</label>
+                    <input type="text" name="mainTeacher" placeholder="اسم الأستاذ الرئيسي" class="input-field">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">العدد الأقصى للتلاميذ</label>
+                    <input type="number" name="maxStudents" value="35" min="1" max="50" class="input-field">
+                </div>
+                <div class="flex space-x-4 space-x-reverse pt-4">
+                    <button type="submit" class="flex-1 btn-primary">إضافة القسم</button>
+                    <button type="button" onclick="hideAddClassModal()" class="flex-1 btn-secondary">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav">
+        <div class="flex items-center justify-around py-2">
+            <button onclick="showSection('dashboard')" class="nav-btn-mobile flex flex-col items-center py-2 px-1 nav-active rounded-lg">
+                <svg class="w-4 h-4 mb-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                </svg>
+                <span class="text-xs">الرئيسية</span>
+            </button>
+            <button onclick="showSection('students')" class="nav-btn-mobile flex flex-col items-center py-2 px-1 nav-inactive rounded-lg">
+                <svg class="w-4 h-4 mb-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A3.01 3.01 0 0 0 17.1 7H14.9c-1.3 0-2.4.84-2.85 2.37L9.5 16H12v6h8z"/>
+                </svg>
+                <span class="text-xs">التلاميذ</span>
+            </button>
+            <button onclick="showSection('attendance')" class="nav-btn-mobile flex flex-col items-center py-2 px-1 nav-inactive rounded-lg">
+                <svg class="w-4 h-4 mb-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-3V2h-2v2H8V2H6v2H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/>
+                </svg>
+                <span class="text-xs">الحضور</span>
+            </button>
+            <button onclick="showSection('grades')" class="nav-btn-mobile flex flex-col items-center py-2 px-1 nav-inactive rounded-lg">
+                <svg class="w-4 h-4 mb-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                </svg>
+                <span class="text-xs">النقاط</span>
+            </button>
+            <button onclick="showSection('settings')" class="nav-btn-mobile flex flex-col items-center py-2 px-1 nav-inactive rounded-lg">
+                <svg class="w-4 h-4 mb-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="text-xs">الإعدادات</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // Data Storage
+        let students = JSON.parse(localStorage.getItem('students') || '[]');
+        let attendance = JSON.parse(localStorage.getItem('attendance') || '{}');
+        let grades = JSON.parse(localStorage.getItem('grades') || '{}');
+        let lessons = JSON.parse(localStorage.getItem('lessons') || '[]');
+        let classes = JSON.parse(localStorage.getItem('classes') || '[]');
+        let settings = JSON.parse(localStorage.getItem('settings') || '{"currentYear": "2023-2024", "schoolName": "ثانوية الشهيد محمد بوضياف", "autoSave": true}');
+        
+        // User Management
+        let currentUser = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser') || 'null');
+        
+        // Predefined users for demo
+        const users = {
+            'أستاذ': { password: '123456', type: 'teacher', name: 'الأستاذ محمد أحمد' },
+            'إدارة': { password: 'admin123', type: 'admin', name: 'مدير المؤسسة' },
+            'teacher': { password: '123456', type: 'teacher', name: 'الأستاذ محمد أحمد' },
+            'admin': { password: 'admin123', type: 'admin', name: 'مدير المؤسسة' }
+        };
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthStatus();
+        });
+        
+        // Authentication Functions
+        function checkAuthStatus() {
+            if (currentUser) {
+                showMainApp();
+            } else {
+                showLoginScreen();
+            }
+        }
+        
+        function showLoginScreen() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+            document.querySelector('header').style.display = 'none';
+            document.querySelector('.bottom-nav').style.display = 'none';
+        }
+        
+        function showMainApp() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            document.querySelector('header').style.display = 'block';
+            document.querySelector('.bottom-nav').style.display = 'block';
+            
+            initializeApp();
+            updateDashboard();
+            setCurrentDate();
+            updateUserInfo();
+        }
+        
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const username = formData.get('username');
+            const password = formData.get('password');
+            const userType = formData.get('userType');
+            const remember = formData.get('remember');
+            
+            if (!username || !password || !userType) {
+                showToast('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+            
+            // Check credentials
+            const user = users[username];
+            if (user && user.password === password && user.type === userType) {
+                currentUser = {
+                    username: username,
+                    name: user.name,
+                    type: user.type,
+                    loginTime: new Date().toISOString()
+                };
+                
+                if (remember) {
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                } else {
+                    sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
+                
+                addRecentActivity(`تم تسجيل دخول ${user.name}`);
+                showToast(`مرحباً ${user.name}!`);
+                showMainApp();
+                event.target.reset();
+            } else {
+                showToast('اسم المستخدم أو كلمة المرور غير صحيحة', 'error');
+            }
+        }
+        
+        function quickLogin(type) {
+            const username = type === 'teacher' ? 'أستاذ' : 'إدارة';
+            const user = users[username];
+            
+            currentUser = {
+                username: username,
+                name: user.name,
+                type: user.type,
+                loginTime: new Date().toISOString()
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            addRecentActivity(`تم تسجيل دخول ${user.name}`);
+            showToast(`مرحباً ${user.name}!`);
+            showMainApp();
+        }
+        
+        function logout() {
+            if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                addRecentActivity(`تم تسجيل خروج ${currentUser.name}`);
+                currentUser = null;
+                localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('currentUser');
+                showToast('تم تسجيل الخروج بنجاح');
+                showLoginScreen();
+            }
+        }
+        
+        function updateUserInfo() {
+            if (currentUser) {
+                const userTypeText = currentUser.type === 'teacher' ? 'أستاذ' : 'إدارة';
+                document.getElementById('currentUserInfo').textContent = `مرحباً ${userTypeText}`;
+            }
+        }
+        
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"/>
+                `;
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                `;
+            }
+        }
+        
+        function showForgotPassword() {
+            showToast('للحصول على كلمة مرور جديدة، يرجى التواصل مع الإدارة');
+        }
+
+        function initializeApp() {
+            // Set current year
+            document.getElementById('currentYear').textContent = settings.currentYear;
+            document.getElementById('dashboardDate').textContent = new Date().toLocaleDateString('ar-DZ', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            updateStudentsTable();
+            updateDashboardStats();
+            loadRecentActivity();
+        }
+
+        function setCurrentDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('attendanceDate').value = today;
+            document.getElementById('gradeDate').value = today;
+            document.getElementById('lessonDate').value = today;
+        }
+
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update navigation buttons
+            document.querySelectorAll('.nav-btn, .nav-btn-mobile').forEach(btn => {
+                btn.classList.remove('nav-active');
+                btn.classList.add('nav-inactive');
+            });
+            
+            // Activate current button
+            if (event && event.target.closest('.nav-btn, .nav-btn-mobile')) {
+                const button = event.target.closest('.nav-btn, .nav-btn-mobile');
+                button.classList.remove('nav-inactive');
+                button.classList.add('nav-active');
+            }
+        }
+
+        // Student Management
+        function showAddStudentModal() {
+            document.getElementById('addStudentModal').classList.add('show');
+        }
+
+        function hideAddStudentModal() {
+            document.getElementById('addStudentModal').classList.remove('show');
+        }
+
+        function addStudent(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const classId = formData.get('classId');
+            
+            // Check if class is full
+            if (classId) {
+                const selectedClass = classes.find(c => c.id == classId);
+                const studentsInClass = students.filter(s => s.classId == classId).length;
+                
+                if (selectedClass && studentsInClass >= selectedClass.maxStudents) {
+                    showToast(`القسم ${selectedClass.name} ممتلئ (${selectedClass.maxStudents} تلميذ)`, 'error');
+                    return;
+                }
+            }
+            
+            const student = {
+                id: Date.now(),
+                name: formData.get('name'),
+                birthDate: formData.get('birthDate'),
+                registrationNumber: formData.get('registrationNumber'),
+                classId: classId ? parseInt(classId) : null,
+                branch: formData.get('branch'),
+                average: 0,
+                absences: 0,
+                createdAt: new Date().toISOString()
+            };
+            
+            students.push(student);
+            saveData();
+            updateStudentsTable();
+            updateDashboardStats();
+            updateClassesList();
+            updateDataStatistics();
+            addRecentActivity(`تم إضافة التلميذ: ${student.name}`);
+            
+            showToast('تم إضافة التلميذ بنجاح!');
+            hideAddStudentModal();
+            event.target.reset();
+        }
+
+        function updateStudentsTable() {
+            const tbody = document.getElementById('studentsTable');
+            const noStudentsRow = document.getElementById('noStudentsRow');
+            
+            if (students.length === 0) {
+                if (noStudentsRow) noStudentsRow.style.display = 'table-row';
+                return;
+            }
+            
+            if (noStudentsRow) noStudentsRow.style.display = 'none';
+            
+            // Remove existing student rows
+            const existingRows = tbody.querySelectorAll('tr:not(#noStudentsRow)');
+            existingRows.forEach(row => row.remove());
+            
+            students.forEach((student, index) => {
+                const classItem = classes.find(c => c.id === student.classId);
+                const className = classItem ? classItem.name : 'بدون قسم';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${String(index + 1).padStart(2, '0')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${student.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(student.birthDate).toLocaleDateString('ar-DZ')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${className}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.branch}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getGradeColorClass(student.average)}">${student.average.toFixed(1)}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.absences} يوم</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div class="flex items-center space-x-2 space-x-reverse">
+                            <button onclick="viewStudent(${student.id})" class="action-button view">عرض</button>
+                            <button onclick="editStudent(${student.id})" class="action-button edit">تعديل</button>
+                            <button onclick="deleteStudent(${student.id})" class="action-button delete">حذف</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function deleteStudent(studentId) {
+            if (confirm('هل أنت متأكد من حذف هذا التلميذ؟ سيتم حذف جميع بياناته المرتبطة.')) {
+                const studentIndex = students.findIndex(s => s.id === studentId);
+                if (studentIndex > -1) {
+                    const studentName = students[studentIndex].name;
+                    students.splice(studentIndex, 1);
+                    
+                    // Remove related data
+                    delete attendance[studentId];
+                    delete grades[studentId];
+                    
+                    saveData();
+                    updateStudentsTable();
+                    updateDashboardStats();
+                    addRecentActivity(`تم حذف التلميذ: ${studentName}`);
+                    showToast('تم حذف التلميذ بنجاح!');
+                }
+            }
+        }
+
+        function viewStudent(studentId) {
+            const student = students.find(s => s.id === studentId);
+            if (student) {
+                showToast(`عرض تفاصيل: ${student.name}`);
+                // Here you would implement a detailed view modal
+            }
+        }
+
+        function editStudent(studentId) {
+            const student = students.find(s => s.id === studentId);
+            if (student) {
+                showToast(`تعديل بيانات: ${student.name}`);
+                // Here you would implement an edit modal
+            }
+        }
+
+        // Attendance Management
+        function loadAttendanceSession() {
+            const date = document.getElementById('attendanceDate').value;
+            const session = document.getElementById('attendanceSession').value;
+            const subject = document.getElementById('attendanceSubject').value;
+            
+            if (!date || !session || !subject) {
+                showToast('يرجى اختيار جميع المعايير المطلوبة', 'error');
+                return;
+            }
+            
+            const grid = document.getElementById('attendanceGrid');
+            grid.innerHTML = '';
+            
+            if (students.length === 0) {
+                grid.innerHTML = `
+                    <div class="text-center py-12 col-span-full">
+                        <p class="text-lg font-medium text-gray-500 mb-2">لا توجد تلاميذ مسجلون</p>
+                        <p class="text-sm text-gray-400">أضف التلاميذ أولاً من قسم إدارة التلاميذ</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            students.forEach((student, index) => {
+                const attendanceKey = `${date}-${session}-${student.id}`;
+                const currentStatus = attendance[attendanceKey] || 'present';
+                
+                const div = document.createElement('div');
+                div.className = 'border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow';
+                div.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-semibold text-gray-800">${student.name}</p>
+                            <p class="text-sm text-gray-500">الرقم: ${String(index + 1).padStart(2, '0')}</p>
+                        </div>
+                        <div class="flex space-x-2 space-x-reverse">
+                            <button onclick="markAttendance('${attendanceKey}', 'present', this)" 
+                                    class="attendance-btn px-3 py-1 rounded-full text-sm transition-colors ${currentStatus === 'present' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-800 hover:bg-green-200'}">
+                                حاضر
+                            </button>
+                            <button onclick="markAttendance('${attendanceKey}', 'absent', this)" 
+                                    class="attendance-btn px-3 py-1 rounded-full text-sm transition-colors ${currentStatus === 'absent' ? 'bg-red-600 text-white' : 'bg-red-100 text-red-800 hover:bg-red-200'}">
+                                غائب
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function markAttendance(attendanceKey, status, button) {
+            attendance[attendanceKey] = status;
+            
+            // Update button states
+            const container = button.parentElement;
+            const buttons = container.querySelectorAll('.attendance-btn');
+            
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-green-600', 'bg-red-600', 'text-white');
+                if (btn.textContent.includes('حاضر')) {
+                    btn.className = 'attendance-btn px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm hover:bg-green-200 transition-colors';
+                } else {
+                    btn.className = 'attendance-btn px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm hover:bg-red-200 transition-colors';
+                }
+            });
+            
+            if (status === 'present') {
+                button.className = 'attendance-btn px-3 py-1 bg-green-600 text-white rounded-full text-sm transition-colors';
+            } else {
+                button.className = 'attendance-btn px-3 py-1 bg-red-600 text-white rounded-full text-sm transition-colors';
+            }
+        }
+
+        function markAllPresent() {
+            const buttons = document.querySelectorAll('.attendance-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.includes('حاضر')) {
+                    btn.click();
+                }
+            });
+        }
+
+        function markAllAbsent() {
+            const buttons = document.querySelectorAll('.attendance-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.includes('غائب')) {
+                    btn.click();
+                }
+            });
+        }
+
+        function saveAttendance() {
+            const date = document.getElementById('attendanceDate').value;
+            const session = document.getElementById('attendanceSession').value;
+            const subject = document.getElementById('attendanceSubject').value;
+            
+            if (!date || !session || !subject) {
+                showToast('يرجى اختيار جميع المعايير المطلوبة', 'error');
+                return;
+            }
+            
+            saveData();
+            updateDashboardStats();
+            addRecentActivity(`تم حفظ حضور جلسة ${subject} - الحصة ${session}`);
+            showToast('تم حفظ بيانات الحضور بنجاح!');
+        }
+
+        // Grades Management
+        function loadGradeSession() {
+            const trimester = document.getElementById('gradeTrimester').value;
+            const type = document.getElementById('gradeType').value;
+            const subject = document.getElementById('gradeSubject').value;
+            const coefficient = document.getElementById('gradeCoefficient').value;
+            
+            if (!trimester || !type || !subject || !coefficient) {
+                showToast('يرجى اختيار جميع المعايير المطلوبة', 'error');
+                return;
+            }
+            
+            const tbody = document.getElementById('gradesTable');
+            tbody.innerHTML = '';
+            
+            if (students.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+                            <p>لا توجد تلاميذ مسجلون</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            students.forEach((student, index) => {
+                const gradeKey = `${trimester}-${type}-${subject}-${student.id}`;
+                const currentGrade = grades[gradeKey] || { score: '', note: '' };
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${String(index + 1).padStart(2, '0')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${student.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <input type="number" min="0" max="20" step="0.25" value="${currentGrade.score}" 
+                               onchange="updateGrade('${gradeKey}', 'score', this.value)"
+                               class="w-20 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-green-500">
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs rounded-full ${getGradeColorClass(currentGrade.score)}" id="appreciation-${gradeKey}">
+                            ${getGradeAppreciation(currentGrade.score)}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <input type="text" value="${currentGrade.note}" placeholder="ملاحظة..."
+                               onchange="updateGrade('${gradeKey}', 'note', this.value)"
+                               class="w-full px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-green-500">
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateGrade(gradeKey, field, value) {
+            if (!grades[gradeKey]) {
+                grades[gradeKey] = { score: '', note: '' };
+            }
+            grades[gradeKey][field] = value;
+            
+            if (field === 'score') {
+                const appreciationElement = document.getElementById(`appreciation-${gradeKey}`);
+                if (appreciationElement) {
+                    appreciationElement.textContent = getGradeAppreciation(value);
+                    appreciationElement.className = `px-2 py-1 text-xs rounded-full ${getGradeColorClass(value)}`;
+                }
+            }
+        }
+
+        function saveGrades() {
+            const date = document.getElementById('gradeDate').value;
+            const title = document.getElementById('gradeTitle').value;
+            const trimester = document.getElementById('gradeTrimester').value;
+            const type = document.getElementById('gradeType').value;
+            const subject = document.getElementById('gradeSubject').value;
+            
+            if (!date || !title || !trimester || !type || !subject) {
+                showToast('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+            
+            saveData();
+            updateDashboardStats();
+            updateGradeStatistics();
+            addRecentActivity(`تم حفظ نقاط ${type} - ${subject}`);
+            showToast('تم حفظ النقاط بنجاح!');
+        }
+
+        function updateGradeStatistics() {
+            const allGrades = Object.values(grades).map(g => parseFloat(g.score)).filter(s => !isNaN(s));
+            
+            if (allGrades.length === 0) return;
+            
+            const excellent = allGrades.filter(g => g >= 18).length;
+            const veryGood = allGrades.filter(g => g >= 16 && g < 18).length;
+            const good = allGrades.filter(g => g >= 14 && g < 16).length;
+            const average = allGrades.filter(g => g >= 10 && g < 14).length;
+            const poor = allGrades.filter(g => g < 10).length;
+            
+            document.getElementById('excellentCount').textContent = excellent;
+            document.getElementById('veryGoodCount').textContent = veryGood;
+            document.getElementById('goodCount').textContent = good;
+            document.getElementById('averageCount').textContent = average;
+            document.getElementById('poorCount').textContent = poor;
+        }
+
+        // Lessons Management
+        function addLesson(event) {
+            event.preventDefault();
+            
+            const lesson = {
+                id: Date.now(),
+                date: document.getElementById('lessonDate').value,
+                session: document.getElementById('lessonSession').value,
+                class: document.getElementById('lessonClass').value,
+                subject: document.getElementById('lessonSubject').value,
+                type: document.getElementById('lessonType').value,
+                title: document.getElementById('lessonTitle').value,
+                content: document.getElementById('lessonContent').value,
+                homework: document.getElementById('lessonHomework').value,
+                notes: document.getElementById('lessonNotes').value,
+                createdAt: new Date().toISOString()
+            };
+            
+            lessons.push(lesson);
+            saveData();
+            updateLessonsList();
+            addRecentActivity(`تم تسجيل درس: ${lesson.title}`);
+            showToast('تم حفظ الدرس بنجاح!');
+            event.target.reset();
+            setCurrentDate();
+        }
+
+        function updateLessonsList() {
+            const container = document.getElementById('lessonsList');
+            
+            if (lessons.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                        </svg>
+                        <p class="text-lg font-medium text-gray-500 mb-2">لا توجد دروس مسجلة</p>
+                        <p class="text-sm text-gray-400">ابدأ بتسجيل الدروس المنجزة والواجبات</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            lessons.slice().reverse().forEach(lesson => {
+                const div = document.createElement('div');
+                div.className = 'border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow';
+                div.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">${lesson.title}</h4>
+                            <p class="text-sm text-gray-600">${lesson.subject} - ${lesson.class} - ${lesson.type}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm text-gray-500">${new Date(lesson.date).toLocaleDateString('ar-DZ')}</p>
+                            <p class="text-xs text-gray-400">الحصة ${lesson.session}</p>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-700 mb-3">
+                        <p><strong>المحتوى:</strong> ${lesson.content}</p>
+                        ${lesson.homework ? `<p class="mt-2"><strong>الواجب:</strong> ${lesson.homework}</p>` : ''}
+                        ${lesson.notes ? `<p class="mt-2"><strong>ملاحظات:</strong> ${lesson.notes}</p>` : ''}
+                    </div>
+                    <div class="flex justify-end space-x-2 space-x-reverse">
+                        <button onclick="editLesson(${lesson.id})" class="text-blue-600 hover:text-blue-800 text-sm">تعديل</button>
+                        <button onclick="deleteLesson(${lesson.id})" class="text-red-600 hover:text-red-800 text-sm">حذف</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function deleteLesson(lessonId) {
+            if (confirm('هل أنت متأكد من حذف هذا الدرس؟')) {
+                const lessonIndex = lessons.findIndex(l => l.id === lessonId);
+                if (lessonIndex > -1) {
+                    const lessonTitle = lessons[lessonIndex].title;
+                    lessons.splice(lessonIndex, 1);
+                    saveData();
+                    updateLessonsList();
+                    addRecentActivity(`تم حذف درس: ${lessonTitle}`);
+                    showToast('تم حذف الدرس بنجاح!');
+                }
+            }
+        }
+
+        function editLesson(lessonId) {
+            const lesson = lessons.find(l => l.id === lessonId);
+            if (lesson) {
+                showToast(`تعديل درس: ${lesson.title}`);
+                // Here you would implement an edit modal
+            }
+        }
+
+        // Reports and Statistics
+        function generateReport(type) {
+            let message = '';
+            switch(type) {
+                case 'attendance':
+                    message = 'تم إنشاء تقرير الحضور بنجاح!';
+                    break;
+                case 'grades':
+                    message = 'تم إنشاء كشف النقاط بنجاح!';
+                    break;
+                case 'progress':
+                    message = 'تم إنشاء تقرير التقدم بنجاح!';
+                    break;
+                case 'complete':
+                    message = 'تم إنشاء التقرير الشامل بنجاح!';
+                    break;
+            }
+            
+            addRecentActivity(`تم إنشاء تقرير: ${type}`);
+            showToast(message);
+        }
+
+        // Dashboard Updates
+        function updateDashboard() {
+            updateDashboardStats();
+            loadRecentActivity();
+        }
+
+        function updateDashboardStats() {
+            // Update total students
+            document.getElementById('totalStudents').textContent = students.length;
+            
+            // Calculate attendance for today
+            const today = new Date().toISOString().split('T')[0];
+            const todayAttendance = Object.entries(attendance).filter(([key, value]) => key.startsWith(today));
+            const presentToday = todayAttendance.filter(([key, value]) => value === 'present').length;
+            const absentToday = todayAttendance.filter(([key, value]) => value === 'absent').length;
+            
+            document.getElementById('presentToday').textContent = presentToday;
+            document.getElementById('absentToday').textContent = absentToday;
+            
+            // Calculate class average
+            const allGrades = Object.values(grades).map(g => parseFloat(g.score)).filter(s => !isNaN(s));
+            const classAverage = allGrades.length > 0 ? allGrades.reduce((a, b) => a + b, 0) / allGrades.length : 0;
+            document.getElementById('classAverage').textContent = classAverage.toFixed(2);
+        }
+
+        function loadRecentActivity() {
+            const container = document.getElementById('recentActivity');
+            const recentActivities = JSON.parse(localStorage.getItem('recentActivities') || '[]');
+            
+            if (recentActivities.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <p>لا توجد أنشطة حديثة</p>
+                        <p class="text-sm">ابدأ بإضافة التلاميذ وتسجيل البيانات</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            recentActivities.slice(0, 5).forEach(activity => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+                div.innerHTML = `
+                    <p class="text-sm text-gray-700">${activity.message}</p>
+                    <p class="text-xs text-gray-500">${new Date(activity.timestamp).toLocaleString('ar-DZ')}</p>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addRecentActivity(message) {
+            const recentActivities = JSON.parse(localStorage.getItem('recentActivities') || '[]');
+            recentActivities.unshift({
+                message: message,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Keep only last 20 activities
+            if (recentActivities.length > 20) {
+                recentActivities.splice(20);
+            }
+            
+            localStorage.setItem('recentActivities', JSON.stringify(recentActivities));
+            loadRecentActivity();
+        }
+
+        // Utility Functions
+        function getGradeColorClass(grade) {
+            const g = parseFloat(grade);
+            if (isNaN(g)) return 'bg-gray-100 text-gray-800';
+            if (g >= 18) return 'grade-excellent';
+            if (g >= 16) return 'grade-very-good';
+            if (g >= 14) return 'grade-good';
+            if (g >= 10) return 'grade-average';
+            return 'grade-poor';
+        }
+
+        function getGradeAppreciation(grade) {
+            const g = parseFloat(grade);
+            if (isNaN(g) || g === '') return '-';
+            if (g >= 18) return 'ممتاز';
+            if (g >= 16) return 'جيد جداً';
+            if (g >= 14) return 'جيد';
+            if (g >= 10) return 'مقبول';
+            return 'ضعيف';
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type === 'error' ? 'bg-red-600' : 'bg-green-600'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        function saveData() {
+            localStorage.setItem('students', JSON.stringify(students));
+            localStorage.setItem('attendance', JSON.stringify(attendance));
+            localStorage.setItem('grades', JSON.stringify(grades));
+            localStorage.setItem('lessons', JSON.stringify(lessons));
+            localStorage.setItem('classes', JSON.stringify(classes));
+            localStorage.setItem('settings', JSON.stringify(settings));
+        }
+
+        // Export Functions
+        function exportStudents() {
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + "الرقم,الاسم واللقب,تاريخ الميلاد,المستوى,الشعبة,المعدل العام,الغيابات\n"
+                + students.map((student, index) => 
+                    `${index + 1},"${student.name}","${student.birthDate}","${student.level}","${student.branch}",${student.average},${student.absences}`
+                ).join("\n");
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "قائمة_التلاميذ.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast('تم تصدير قائمة التلاميذ بنجاح!');
+        }
+
+        function exportLessons() {
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + "التاريخ,الحصة,القسم,المادة,النوع,العنوان,المحتوى,الواجب,الملاحظات\n"
+                + lessons.map(lesson => 
+                    `"${lesson.date}","${lesson.session}","${lesson.class}","${lesson.subject}","${lesson.type}","${lesson.title}","${lesson.content}","${lesson.homework}","${lesson.notes}"`
+                ).join("\n");
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "دفتر_النصوص.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast('تم تصدير دفتر النصوص بنجاح!');
+        }
+
+        function exportData() {
+            const data = {
+                students: students,
+                attendance: attendance,
+                grades: grades,
+                lessons: lessons,
+                settings: settings,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+            const link = document.createElement("a");
+            link.setAttribute("href", dataStr);
+            link.setAttribute("download", "نسخة_احتياطية_دفتر_القسم.json");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast('تم تصدير النسخة الاحتياطية بنجاح!');
+        }
+
+        function importStudents() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.csv,.json';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            // Handle JSON import
+                            if (file.name.endsWith('.json')) {
+                                const data = JSON.parse(e.target.result);
+                                if (data.students) {
+                                    students = [...students, ...data.students];
+                                    saveData();
+                                    updateStudentsTable();
+                                    updateDashboardStats();
+                                    showToast('تم استيراد البيانات بنجاح!');
+                                }
+                            }
+                            // Handle CSV import would require additional parsing logic
+                        } catch (error) {
+                            showToast('خطأ في استيراد البيانات', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        // Settings Functions
+        function showSettings() {
+            showSection('settings');
+            updateSettingsInfo();
+            updateClassesList();
+            updateDataStatistics();
+        }
+        
+        function updateSettingsInfo() {
+            if (currentUser) {
+                document.getElementById('settingsUserName').textContent = currentUser.name;
+                document.getElementById('settingsUserType').textContent = currentUser.type === 'teacher' ? 'أستاذ' : 'إدارة';
+                document.getElementById('settingsLoginTime').textContent = new Date(currentUser.loginTime).toLocaleString('ar-DZ');
+            }
+            
+            document.getElementById('currentYearSetting').value = settings.currentYear;
+            document.getElementById('schoolNameSetting').value = settings.schoolName;
+            document.getElementById('autoSaveSetting').checked = settings.autoSave;
+        }
+        
+        function confirmLogout() {
+            if (confirm('هل أنت متأكد من تسجيل الخروج؟\nسيتم حفظ جميع البيانات تلقائياً.')) {
+                logout();
+            }
+        }
+        
+        function updateCurrentYear(year) {
+            settings.currentYear = year;
+            saveData();
+            document.getElementById('currentYear').textContent = year;
+            showToast('تم تحديث السنة الدراسية');
+        }
+        
+        function updateSchoolName(name) {
+            settings.schoolName = name;
+            saveData();
+            showToast('تم تحديث اسم المؤسسة');
+        }
+        
+        // Class Management Functions
+        function showAddClassModal() {
+            document.getElementById('addClassModal').classList.add('show');
+        }
+        
+        function hideAddClassModal() {
+            document.getElementById('addClassModal').classList.remove('show');
+        }
+        
+        function addClass(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const newClass = {
+                id: Date.now(),
+                name: formData.get('className'),
+                level: formData.get('level'),
+                mainBranch: formData.get('mainBranch'),
+                mainTeacher: formData.get('mainTeacher') || '',
+                maxStudents: parseInt(formData.get('maxStudents')),
+                currentStudents: 0,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Check if class name already exists
+            if (classes.find(c => c.name === newClass.name)) {
+                showToast('اسم القسم موجود مسبقاً', 'error');
+                return;
+            }
+            
+            classes.push(newClass);
+            saveData();
+            updateClassesList();
+            updateClassSelects();
+            updateDataStatistics();
+            addRecentActivity(`تم إضافة قسم جديد: ${newClass.name}`);
+            
+            showToast('تم إضافة القسم بنجاح!');
+            hideAddClassModal();
+            event.target.reset();
+        }
+        
+        function updateClassesList() {
+            const container = document.getElementById('classesList');
+            
+            if (classes.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-8">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <p class="text-lg font-medium text-gray-500 mb-2">لا توجد أقسام مسجلة</p>
+                        <p class="text-sm text-gray-400">ابدأ بإضافة الأقسام لتنظيم التلاميذ</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            classes.forEach(classItem => {
+                const studentsInClass = students.filter(s => s.classId === classItem.id).length;
+                const div = document.createElement('div');
+                div.className = 'border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow';
+                div.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">${classItem.name}</h4>
+                            <p class="text-sm text-gray-600">${classItem.level} - ${classItem.mainBranch}</p>
+                            ${classItem.mainTeacher ? `<p class="text-xs text-gray-500">الأستاذ: ${classItem.mainTeacher}</p>` : ''}
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-blue-600">${studentsInClass}/${classItem.maxStudents}</p>
+                            <p class="text-xs text-gray-500">تلميذ</p>
+                        </div>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                        <div class="bg-blue-600 h-2 rounded-full" style="width: ${(studentsInClass / classItem.maxStudents) * 100}%"></div>
+                    </div>
+                    <div class="flex justify-end space-x-2 space-x-reverse">
+                        <button onclick="viewClassDetails(${classItem.id})" class="text-blue-600 hover:text-blue-800 text-sm">عرض</button>
+                        <button onclick="editClass(${classItem.id})" class="text-green-600 hover:text-green-800 text-sm">تعديل</button>
+                        <button onclick="deleteClass(${classItem.id})" class="text-red-600 hover:text-red-800 text-sm">حذف</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        function updateClassSelects() {
+            const selects = document.querySelectorAll('#studentClassSelect, #classFilter');
+            selects.forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">اختر القسم</option>';
+                
+                classes.forEach(classItem => {
+                    const option = document.createElement('option');
+                    option.value = classItem.id;
+                    option.textContent = `${classItem.name} - ${classItem.level}`;
+                    select.appendChild(option);
+                });
+                
+                if (currentValue) select.value = currentValue;
+            });
+        }
+        
+        function deleteClass(classId) {
+            const classItem = classes.find(c => c.id === classId);
+            const studentsInClass = students.filter(s => s.classId === classId).length;
+            
+            if (studentsInClass > 0) {
+                if (!confirm(`هذا القسم يحتوي على ${studentsInClass} تلميذ. هل أنت متأكد من الحذف؟\nسيتم نقل التلاميذ إلى "بدون قسم".`)) {
+                    return;
+                }
+                
+                // Move students to "no class"
+                students.forEach(student => {
+                    if (student.classId === classId) {
+                        student.classId = null;
+                    }
+                });
+            }
+            
+            const classIndex = classes.findIndex(c => c.id === classId);
+            if (classIndex > -1) {
+                const className = classes[classIndex].name;
+                classes.splice(classIndex, 1);
+                saveData();
+                updateClassesList();
+                updateClassSelects();
+                updateStudentsTable();
+                updateDataStatistics();
+                addRecentActivity(`تم حذف القسم: ${className}`);
+                showToast('تم حذف القسم بنجاح!');
+            }
+        }
+        
+        function viewClassDetails(classId) {
+            const classItem = classes.find(c => c.id === classId);
+            if (classItem) {
+                showToast(`عرض تفاصيل القسم: ${classItem.name}`);
+                // Here you would implement a detailed view modal
+            }
+        }
+        
+        function editClass(classId) {
+            const classItem = classes.find(c => c.id === classId);
+            if (classItem) {
+                showToast(`تعديل القسم: ${classItem.name}`);
+                // Here you would implement an edit modal
+            }
+        }
+        
+        // Export Functions
+        function exportAllData() {
+            const data = {
+                students: students,
+                attendance: attendance,
+                grades: grades,
+                lessons: lessons,
+                classes: classes,
+                settings: settings,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+            const link = document.createElement("a");
+            link.setAttribute("href", dataStr);
+            link.setAttribute("download", `نسخة_احتياطية_دفتر_القسم_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            addRecentActivity('تم تصدير نسخة احتياطية كاملة');
+            showToast('تم تصدير النسخة الاحتياطية بنجاح!');
+        }
+        
+        function exportStudentsData() {
+            if (students.length === 0) {
+                showToast('لا توجد بيانات تلاميذ للتصدير', 'error');
+                return;
+            }
+            
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + "الرقم,الاسم واللقب,تاريخ الميلاد,رقم التسجيل,القسم,الشعبة,المعدل العام,الغيابات\n"
+                + students.map((student, index) => {
+                    const classItem = classes.find(c => c.id === student.classId);
+                    const className = classItem ? classItem.name : 'بدون قسم';
+                    return `${index + 1},"${student.name}","${student.birthDate}","${student.registrationNumber || ''}","${className}","${student.branch}",${student.average || 0},${student.absences || 0}`;
+                }).join("\n");
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `قائمة_التلاميذ_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            addRecentActivity('تم تصدير قائمة التلاميذ');
+            showToast('تم تصدير قائمة التلاميذ بنجاح!');
+        }
+        
+        function exportAttendanceData() {
+            const attendanceEntries = Object.entries(attendance);
+            if (attendanceEntries.length === 0) {
+                showToast('لا توجد بيانات حضور للتصدير', 'error');
+                return;
+            }
+            
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + "التاريخ,الحصة,اسم التلميذ,الحالة\n"
+                + attendanceEntries.map(([key, status]) => {
+                    const [date, session, studentId] = key.split('-');
+                    const student = students.find(s => s.id == studentId);
+                    const studentName = student ? student.name : 'غير معروف';
+                    const statusText = status === 'present' ? 'حاضر' : 'غائب';
+                    return `"${date}","${session}","${studentName}","${statusText}"`;
+                }).join("\n");
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `سجل_الحضور_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            addRecentActivity('تم تصدير سجل الحضور');
+            showToast('تم تصدير سجل الحضور بنجاح!');
+        }
+        
+        function exportGradesData() {
+            const gradeEntries = Object.entries(grades);
+            if (gradeEntries.length === 0) {
+                showToast('لا توجد نقاط للتصدير', 'error');
+                return;
+            }
+            
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + "الفصل,نوع التقييم,المادة,اسم التلميذ,النقطة,الملاحظة\n"
+                + gradeEntries.map(([key, gradeData]) => {
+                    const [trimester, type, subject, studentId] = key.split('-');
+                    const student = students.find(s => s.id == studentId);
+                    const studentName = student ? student.name : 'غير معروف';
+                    return `"${trimester}","${type}","${subject}","${studentName}","${gradeData.score || ''}","${gradeData.note || ''}"`;
+                }).join("\n");
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `كشف_النقاط_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            addRecentActivity('تم تصدير كشف النقاط');
+            showToast('تم تصدير كشف النقاط بنجاح!');
+        }
+        
+        function exportLessonsData() {
+            if (lessons.length === 0) {
+                showToast('لا توجد دروس للتصدير', 'error');
+                return;
+            }
+            
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + "التاريخ,الحصة,القسم,المادة,النوع,العنوان,المحتوى,الواجب,الملاحظات\n"
+                + lessons.map(lesson => 
+                    `"${lesson.date}","${lesson.session}","${lesson.class}","${lesson.subject}","${lesson.type}","${lesson.title}","${lesson.content}","${lesson.homework || ''}","${lesson.notes || ''}"`
+                ).join("\n");
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `دفتر_النصوص_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            addRecentActivity('تم تصدير دفتر النصوص');
+            showToast('تم تصدير دفتر النصوص بنجاح!');
+        }
+        
+        // Import Functions
+        function importAllData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const data = JSON.parse(e.target.result);
+                            
+                            if (data.version && data.students && data.classes) {
+                                if (confirm('هل أنت متأكد من استيراد هذه البيانات؟\nسيتم استبدال جميع البيانات الحالية.')) {
+                                    students = data.students || [];
+                                    attendance = data.attendance || {};
+                                    grades = data.grades || {};
+                                    lessons = data.lessons || [];
+                                    classes = data.classes || [];
+                                    settings = { ...settings, ...data.settings };
+                                    
+                                    saveData();
+                                    updateStudentsTable();
+                                    updateClassesList();
+                                    updateClassSelects();
+                                    updateLessonsList();
+                                    updateDashboardStats();
+                                    updateDataStatistics();
+                                    
+                                    addRecentActivity('تم استيراد نسخة احتياطية كاملة');
+                                    showToast('تم استيراد البيانات بنجاح!');
+                                }
+                            } else {
+                                showToast('تنسيق الملف غير صحيح', 'error');
+                            }
+                        } catch (error) {
+                            showToast('خطأ في قراءة الملف', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+        
+        function importStudentsData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.csv,.json';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            if (file.name.endsWith('.json')) {
+                                const data = JSON.parse(e.target.result);
+                                if (data.students && Array.isArray(data.students)) {
+                                    if (confirm(`سيتم إضافة ${data.students.length} تلميذ. هل تريد المتابعة؟`)) {
+                                        students = [...students, ...data.students];
+                                        saveData();
+                                        updateStudentsTable();
+                                        updateDashboardStats();
+                                        addRecentActivity(`تم استيراد ${data.students.length} تلميذ`);
+                                        showToast('تم استيراد قائمة التلاميذ بنجاح!');
+                                    }
+                                }
+                            }
+                        } catch (error) {
+                            showToast('خطأ في استيراد البيانات', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+        
+        function updateDataStatistics() {
+            document.getElementById('totalStudentsCount').textContent = students.length;
+            document.getElementById('totalClassesCount').textContent = classes.length;
+            document.getElementById('totalLessonsCount').textContent = lessons.length;
+            document.getElementById('totalGradesCount').textContent = Object.keys(grades).length;
+        }
+        
+        function confirmDeleteAllData() {
+            if (confirm('⚠️ تحذير: هذا الإجراء سيحذف جميع البيانات نهائياً!\n\n- جميع التلاميذ\n- جميع الأقسام\n- سجلات الحضور\n- النقاط والدرجات\n- دفتر النصوص\n\nهل أنت متأكد من المتابعة؟')) {
+                if (confirm('هذا هو التأكيد الأخير. لا يمكن التراجع عن هذا الإجراء.\nاكتب "حذف" للتأكيد:')) {
+                    students = [];
+                    attendance = {};
+                    grades = {};
+                    lessons = [];
+                    classes = [];
+                    
+                    // Clear localStorage
+                    localStorage.removeItem('students');
+                    localStorage.removeItem('attendance');
+                    localStorage.removeItem('grades');
+                    localStorage.removeItem('lessons');
+                    localStorage.removeItem('classes');
+                    localStorage.removeItem('recentActivities');
+                    
+                    // Refresh all displays
+                    updateStudentsTable();
+                    updateClassesList();
+                    updateClassSelects();
+                    updateLessonsList();
+                    updateDashboardStats();
+                    updateDataStatistics();
+                    loadRecentActivity();
+                    
+                    addRecentActivity('تم حذف جميع البيانات');
+                    showToast('تم حذف جميع البيانات بنجاح!');
+                }
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('addStudentModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                hideAddStudentModal();
+            }
+        });
+        
+        document.getElementById('addClassModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                hideAddClassModal();
+            }
+        });
+
+        // Initialize lessons list on load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLessonsList();
+            updateClassSelects();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99206390c7072133',t:'MTc2MTA0NTg3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
